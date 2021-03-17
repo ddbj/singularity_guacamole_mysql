@@ -203,6 +203,7 @@ singularity instance start \\
 -B \${CONTAINER_HOME}/data/tomcat_logs:/opt/tomcat/logs \\
 -B \${CONTAINER_HOME}/data/server.xml:/opt/tomcat/conf/server.xml \\
 -B \${CONTAINER_HOME}/data/guacamole_home:/etc/guacamole \\
+-H \${CONTAINER_HOME}/data \\
 \${IMAGE} \\
 \${INSTANCE}
 
