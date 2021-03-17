@@ -7,7 +7,9 @@ Remote Desktop や VNC の接続を HTTP に変換して HTML5 ウェブブラ�
 $ sudo singularity build guacamole.sif Singularity
 ```
 ## 初期設定
-以下のコマンドで singularity isntance 起動のための初期設定を行います。実行前に init.sh 内の MYSQL_ROOT_PASSWD, MYSQL_GUACAMOLE_USER_PASSWD, MYSQL_PORT, GUACAMOLE_PORT, TOMCAT_SHUTDOWN_PORT, TOMCAT_PORT の値を適宜修正してください。
+以下のコマンドで singularity isntance 起動のための初期設定を行います。
+
+実行前に init.sh 内の MYSQL_ROOT_PASSWD, MYSQL_GUACAMOLE_USER_PASSWD, MYSQL_PORT, GUACAMOLE_PORT, TOMCAT_SHUTDOWN_PORT, TOMCAT_PORT の値を適宜修正してください。
 
 "Enter current password for root (enter for none):" と表示されたところで処理がインタラクティブになります。ここではリターンキーを押してください。
 
