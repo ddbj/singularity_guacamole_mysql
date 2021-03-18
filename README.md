@@ -129,7 +129,6 @@ it will then be used by default by the server when you start it.
 
 exec mysql_secure_installation
 INFO:    instance started successfully
-setup guacamole database
 perl: warning: Setting locale failed.
 perl: warning: Please check that your locale settings:
 	LANGUAGE = "ja_JP",
@@ -203,6 +202,7 @@ Thanks for using MySQL!
 
 
 Cleaning up...
+setup guacamole database
 Warning: Using a password on the command line interface can be insecure.
 Warning: Using a password on the command line interface can be insecure.
 Warning: Using a password on the command line interface can be insecure.
