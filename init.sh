@@ -73,11 +73,11 @@ if [ ! -e ${MYSQL_DATADIR} ]; then
 
     singularity exec instance://${INSTANCE} bash /usr/local/bin/start_mysqld.sh
 
-    echo 'setup guacamole database'
-
     singularity exec instance://${INSTANCE} ln -s /usr/local/mysql/data/mysql.sock /tmp/mysql.sock
     singularity exec instance://${INSTANCE} mysql_secure_installation
     singularity exec instance://${INSTANCE} rm /tmp/mysql.sock
+
+    echo 'setup guacamole database'
 
     singularity exec instance://${INSTANCE} \
     mysql --defaults-file=/usr/local/mysql/my_mysql.cnf -uroot -p${MYSQL_ROOT_PASSWD} \
