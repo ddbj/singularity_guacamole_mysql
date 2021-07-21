@@ -12,8 +12,8 @@ From: ubuntu:18.04
     apt-get -y install vim wget sudo less
 
     apt-get -y install gcc g++ software-properties-common libcairo2-dev libjpeg-turbo8-dev libpng-dev libtool-bin libossp-uuid-dev libavutil-dev libswscale-dev build-essential libssh2-1-dev libssl-dev libpango1.0-dev libvncserver-dev libtelnet-dev libpulse-dev libwebp-dev libogg-dev libvorbis-dev libvorbisenc2 libwebp-dev 
-    add-apt-repository ppa:remmina-ppa-team/freerdp-daily
-    apt-get -y update
+#    add-apt-repository ppa:remmina-ppa-team/freerdp-daily
+#    apt-get -y update
     apt-get -y install freerdp2-dev freerdp2-x11 
     apt-get -y install openjdk-11-jdk unzip
 
@@ -49,7 +49,7 @@ From: ubuntu:18.04
     # install tomcat
 
     cd /usr/local/src
-    export TOMCAT_VERSION="9.0.44"
+    export TOMCAT_VERSION="9.0.50"
     wget https://ftp.kddi-research.jp/infosystems/apache/tomcat/tomcat-9/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz
     tar xzvf apache-tomcat-${TOMCAT_VERSION}.tar.gz
     mv apache-tomcat-${TOMCAT_VERSION} /opt/tomcat
