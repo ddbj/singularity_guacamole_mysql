@@ -181,7 +181,7 @@ mysql-hostname: localhost
 mysql-port: ${MYSQL_PORT}
 mysql-database: guacamole_db
 mysql-username: guacamole_user
-mysql-password: testddbj
+mysql-password: ${MYSQL_GUACAMOLE_USER_PASSWD}
 EOF
 
 fi
