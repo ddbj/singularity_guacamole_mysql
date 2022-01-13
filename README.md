@@ -6,6 +6,14 @@ Remote Desktop や VNC の接続を HTTP に変換して HTML5 ウェブブラ�
 ```
 $ sudo singularity build guacamole.sif Singularity
 ```
+MySQL, Tomcatについてはダウンロード先に置かれているバージョンが限定されているため、ファイルをダウンロードできずにビルドに失敗する場合があります。その場合はファイルのダウンロード先を見て、以下のバージョンを適宜変更してください。
+```
+MYSQL_VERSION=5.6.51
+```
+```
+TOMCAT_VERSION="9.0.56"
+```
+
 ## 初期設定
 以下のコマンドで singularity isntance 起動のための初期設定を行います。
 
