@@ -49,7 +49,7 @@ From: ubuntu:18.04
     # install tomcat
 
     cd /usr/local/src
-    export TOMCAT_VERSION="9.0.50"
+    TOMCAT_VERSION="9.0.56"
     wget https://ftp.kddi-research.jp/infosystems/apache/tomcat/tomcat-9/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz
     tar xzvf apache-tomcat-${TOMCAT_VERSION}.tar.gz
     mv apache-tomcat-${TOMCAT_VERSION} /opt/tomcat
