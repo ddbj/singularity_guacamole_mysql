@@ -8,7 +8,7 @@ $ sudo singularity build guacamole.sif Singularity
 ```
 MySQL, Tomcatについてはダウンロード先に置かれているバージョンが限定されているため、ファイルをダウンロードできずにビルドに失敗する場合があります。その場合はファイルのダウンロード先を見て、Singularityファイル中の以下のバージョンの記述を適宜変更してください。
 ```
-MYSQL_VERSION=5.6.51
+MYSQL_VERSION="5.6.51"
 ```
 ```
 TOMCAT_VERSION="9.0.56"
