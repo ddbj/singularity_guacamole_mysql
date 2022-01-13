@@ -19,7 +19,7 @@ From: ubuntu:18.04
 
     # install MySQL
 
-    MYSQL_VERSION=5.6.51
+    MYSQL_VERSION="5.6.51"
     cd /usr/local/src
     wget http://ftp.jaist.ac.jp/pub/mysql/Downloads/MySQL-5.6/mysql-${MYSQL_VERSION}.tar.gz
     tar xzvf mysql-${MYSQL_VERSION}.tar.gz
