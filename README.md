@@ -1,6 +1,8 @@
 # singularity_guacamole_mysql
 Remote Desktop や VNC の接続を HTTP に変換して HTML5 ウェブブラウザで表示する Apache Guacamole を singularity instance で実行するためのレシピファイル・初期化スクリプトです。ユーザー認証にMySQLを使用します。
 
+guacamole 1.3ですでにインスタンスを実行している場合は、インスタンスを一度終了して「singularity imageのビルド」を実行後、「データの移行」まで進んでください。
+
 ## singularity image のビルド
 以下のコマンドで singularity image をビルドしてください。
 ```
@@ -235,6 +237,62 @@ Using CATALINA_BASE:   /opt/tomcat
 Using CATALINA_HOME:   /opt/tomcat
 Using CATALINA_TMPDIR: /opt/tomcat/temp
 Using JRE_HOME:        /usr
+Using CLASSPATH:       /opt/tomcat/bin/bootstrap.jar:/opt/tomcat/bin/tomcat-juli.jar
+Using CATALINA_OPTS:   
+Tomcat started.
+```
+
+## データの移行
+guacamole 1.3で作成済みのstart_container.shを使って新しいイメージでインスタンスを起動します。
+```
+$ bash start_container.sh
+INFO:    instance started successfully
+guacd[25]: INFO:	Guacamole proxy daemon (guacd) version 1.4.0 started
+Using CATALINA_BASE:   /opt/tomcat
+Using CATALINA_HOME:   /opt/tomcat
+Using CATALINA_TMPDIR: /opt/tomcat/temp
+Using JRE_HOME:        /usr/lib/jvm/java-11-openjdk-amd64
+Using CLASSPATH:       /opt/tomcat/bin/bootstrap.jar:/opt/tomcat/bin/tomcat-juli.jar
+Using CATALINA_OPTS:   
+Tomcat started.
+```
+
+インスタンス内に入ります。
+```
+$ singularity shell instance://guacamole
+Singularity>
+```
+
+guacamole-auth-jdbc-mysql-1.3.0.jarのシンボリックリンクをguacamole-auth-jdbc-mysql-1.4.0.jarのシンボリックリンクに変更します。
+```
+Singularity> ls -l /etc/guacamole/extensions/
+total 4
+lrwxrwxrwx 1 okuda okuda 82 Mar 17  2021 guacamole-auth-jdbc-mysql-1.3.0.jar -> /usr/local/src/guacamole-auth-jdbc-1.3.0/mysql/guacamole-auth-jdbc-mysql-1.3.0.jar
+Singularity> ln -s /usr/local/src/guacamole-auth-jdbc-1.4.0/mysql/guacamole-auth-jdbc-mysql-1.4.0.jar /etc/guacamole/extensions/
+Singularity> ls -l /etc/guacamole/extensions/
+total 8
+lrwxrwxrwx 1 okuda okuda 82 Mar 17  2021 guacamole-auth-jdbc-mysql-1.3.0.jar -> /usr/local/src/guacamole-auth-jdbc-1.3.0/mysql/guacamole-auth-jdbc-mysql-1.3.0.jar
+lrwxrwxrwx 1 okuda okuda 82 Jan 17 12:06 guacamole-auth-jdbc-mysql-1.4.0.jar -> /usr/local/src/guacamole-auth-jdbc-1.4.0/mysql/guacamole-auth-jdbc-mysql-1.4.0.jar
+Singularity> rm /etc/guacamole/extensions/guacamole-auth-jdbc-mysql-1.3.0.jar 
+Singularity> ls -l /etc/guacamole/extensions/
+total 4
+lrwxrwxrwx 1 okuda okuda 82 Jan 17 12:06 guacamole-auth-jdbc-mysql-1.4.0.jar -> /usr/local/src/guacamole-auth-jdbc-1.4.0/mysql/guacamole-auth-jdbc-mysql-1.4.0.jar
+Singularity> exit
+exit
+$
+```
+
+インスタンスを再起動します。
+```
+$ singularity instance stop guacamole
+INFO:    Stopping guacamole instance of /home/okuda/singularity/ubuntu-18.04-guacamole-1.4.0-mysql/guacamole.sif (PID=29810)
+$ bash start_container.sh 
+INFO:    instance started successfully
+guacd[26]: INFO:	Guacamole proxy daemon (guacd) version 1.4.0 started
+Using CATALINA_BASE:   /opt/tomcat
+Using CATALINA_HOME:   /opt/tomcat
+Using CATALINA_TMPDIR: /opt/tomcat/temp
+Using JRE_HOME:        /usr/lib/jvm/java-11-openjdk-amd64
 Using CLASSPATH:       /opt/tomcat/bin/bootstrap.jar:/opt/tomcat/bin/tomcat-juli.jar
 Using CATALINA_OPTS:   
 Tomcat started.
