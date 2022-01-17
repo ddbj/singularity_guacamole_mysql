@@ -12,6 +12,7 @@ MYSQL_ROOT_PASSWD="PASSWORD"
 MYSQL_GUACAMOLE_USER_PASSWD="PASSWORD"
 MYSQL_PORT="53306"
 
+GUACAMOLE_VERSION="1.4.0"
 GUACAMOLE_HOME="${DATADIR}/guacamole_home"
 GUACAMOLE_PORT="54822"
 
@@ -73,18 +74,18 @@ if [ ! -e ${MYSQL_DATADIR} ]; then
 
     singularity exec instance://${INSTANCE} bash /usr/local/bin/start_mysqld.sh
 
+    echo 'setup guacamole database'
+
     singularity exec instance://${INSTANCE} ln -s /usr/local/mysql/data/mysql.sock /tmp/mysql.sock
     singularity exec instance://${INSTANCE} mysql_secure_installation
     singularity exec instance://${INSTANCE} rm /tmp/mysql.sock
-
-    echo 'setup guacamole database'
 
     singularity exec instance://${INSTANCE} \
     mysql --defaults-file=/usr/local/mysql/my_mysql.cnf -uroot -p${MYSQL_ROOT_PASSWD} \
     -e "CREATE DATABASE guacamole_db";
 
     singularity exec instance://${INSTANCE} \
-    bash -c "cat /usr/local/src/guacamole-auth-jdbc-1.3.0/mysql/schema/*.sql | mysql -uroot -p${MYSQL_ROOT_PASSWD} guacamole_db"
+    bash -c "cat /usr/local/src/guacamole-auth-jdbc-${GUACAMOLE_VERSION}/mysql/schema/*.sql | mysql -uroot -p${MYSQL_ROOT_PASSWD} guacamole_db"
 
     singularity exec instance://${INSTANCE} \
     mysql --defaults-file=/usr/local/mysql/my_mysql.cnf -uroot -p${MYSQL_ROOT_PASSWD} \
@@ -161,7 +162,7 @@ if [ ! -e "${GUACAMOLE_HOME}" ]; then
 
     sleep 10
 
-    singularity exec instance://${INSTANCE} ln -s /usr/local/src/guacamole-auth-jdbc-1.3.0/mysql/guacamole-auth-jdbc-mysql-1.3.0.jar /etc/guacamole/extensions/guacamole-auth-jdbc-mysql-1.3.0.jar
+    singularity exec instance://${INSTANCE} ln -s /usr/local/src/guacamole-auth-jdbc-${GUACAMOLE_VERSION}/mysql/guacamole-auth-jdbc-mysql-${GUACAMOLE_VERSION}.jar /etc/guacamole/extensions/guacamole-auth-jdbc-mysql-${GUACAMOLE_VERSION}.jar
     singularity exec instance://${INSTANCE} ln -s /usr/local/src/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49-bin.jar /etc/guacamole/lib/mysql-connector-java-5.1.49-bin.jar
 
     singularity instance stop ${INSTANCE}
@@ -181,7 +182,7 @@ mysql-hostname: localhost
 mysql-port: ${MYSQL_PORT}
 mysql-database: guacamole_db
 mysql-username: guacamole_user
-mysql-password: ${MYSQL_GUACAMOLE_USER_PASSWD}
+mysql-password: testddbj
 EOF
 
 fi
@@ -203,7 +204,6 @@ singularity instance start \\
 -B \${CONTAINER_HOME}/data/tomcat_logs:/opt/tomcat/logs \\
 -B \${CONTAINER_HOME}/data/server.xml:/opt/tomcat/conf/server.xml \\
 -B \${CONTAINER_HOME}/data/guacamole_home:/etc/guacamole \\
--H \${CONTAINER_HOME}/data \\
 \${IMAGE} \\
 \${INSTANCE}
 
@@ -211,7 +211,7 @@ sleep 10
 
 singularity exec instance://\${INSTANCE} /usr/local/bin/start_mysqld.sh
 singularity exec instance://\${INSTANCE} guacd -p /etc/guacamole/guacamole.pid -l \${GUACAMOLE_PORT}
-singularity exec instance://\${INSTANCE} /opt/tomcat/bin/startup.sh
+singularity exec instance://\${INSTANCE} sh -c "export JRE_HOME=/usr/lib/jvm/java-11-openjdk-amd64 && /opt/tomcat/bin/startup.sh"
 EOF
 
 fi

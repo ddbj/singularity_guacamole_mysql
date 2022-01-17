@@ -35,10 +35,11 @@ From: ubuntu:18.04
 
     # install guacamole server
 
+    GUACAMOLE_VERSION="1.4.0"
     cd /usr/local/src
-    wget http://archive.apache.org/dist/guacamole/1.3.0/source/guacamole-server-1.3.0.tar.gz
-    tar xzvf guacamole-server-1.3.0.tar.gz
-    cd guacamole-server-1.3.0
+    wget http://archive.apache.org/dist/guacamole/${GUACAMOLE_VERSION}/source/guacamole-server-${GUACAMOLE_VERSION}.tar.gz
+    tar xzvf guacamole-server-${GUACAMOLE_VERSION}.tar.gz
+    cd guacamole-server-${GUACAMOLE_VERSION}
     ./configure
     make
     make install
@@ -58,8 +59,8 @@ From: ubuntu:18.04
     # install guacamole.war
 
     cd /usr/local/src
-    wget http://archive.apache.org/dist/guacamole/1.3.0/binary/guacamole-1.3.0.war
-    cp guacamole-1.3.0.war /opt/tomcat/webapps/guacamole.war
+    wget http://archive.apache.org/dist/guacamole/${GUACAMOLE_VERSION}/binary/guacamole-${GUACAMOLE_VERSION}.war
+    cp guacamole-1.4.0.war /opt/tomcat/webapps/guacamole.war
     /opt/tomcat/bin/startup.sh
     sleep 10
     /opt/tomcat/bin/shutdown.sh
@@ -74,8 +75,8 @@ From: ubuntu:18.04
     chmod 755 -R /opt/tomcat/webapps/guacamole
 
     cd /usr/local/src
-    wget http://archive.apache.org/dist/guacamole/1.3.0/binary/guacamole-auth-jdbc-1.3.0.tar.gz
-    tar xzvf guacamole-auth-jdbc-1.3.0.tar.gz
+    wget http://archive.apache.org/dist/guacamole/${GUACAMOLE_VERSION}/binary/guacamole-auth-jdbc-${GUACAMOLE_VERSION}.tar.gz
+    tar xzvf guacamole-auth-jdbc-${GUACAMOLE_VERSION}.tar.gz
     wget http://ftp.jaist.ac.jp/pub/mysql/Downloads/Connector-J/mysql-connector-java-5.1.49.tar.gz
     tar xzvf mysql-connector-java-5.1.49.tar.gz
 
